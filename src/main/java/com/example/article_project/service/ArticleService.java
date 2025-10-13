@@ -18,13 +18,13 @@ public interface ArticleService {
                 .build();
     }
 
-    default ArticleDto entityToDto(Article article) {
-        return ArticleDto.builder()
-                .title(article.getTitle())
-                .contents(article.getContents())
-                .writer(article.getWriter())
-                .regDate(article.getRegDate())
-                .build();
-    }
+    // default ArticleDto entityToDto(Article article) {
+    //     return ArticleDto.builder()
+    //             .title(article.getTitle())
+    //             .contents(article.getContents())
+    //             .writer(article.getWriter())
+    //             .regDate(article.getRegDate())
+    //             .build();
+    // }
 
 }
