@@ -4,7 +4,11 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,5 +31,34 @@ public class ArticleController {
         Long id = articleService.registerArticle(articleDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("id", id));
 
+    }
+
+    // 게시글 상세조회: getArticle
+    @GetMapping("/articles/{id}")
+    public ResponseEntity<ArticleDto> getArticle(@PathVariable(value = "id") Long articleId) {
+        
+        ArticleDto articleDto = articleService.retrieveArticle(articleId);
+        return ResponseEntity.status(HttpStatus.OK).body(articleDto);
+    }
+
+    // 게시글 수정
+    @PutMapping("/articles/{id}")
+    public ResponseEntity<String> putArticle(
+        @PathVariable(value = "id") Long artticleId,
+        @RequestBody ArticleDto articleDto) {
+        
+        articleDto.setId(artticleId);
+
+        articleService.modifyArticle(articleDto);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("/articles/{id}")
+    public ResponseEntity<String> deleteArticle(@PathVariable(value = "id") Long artticleId) {
+        articleService.removeArticle(artticleId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }
 }

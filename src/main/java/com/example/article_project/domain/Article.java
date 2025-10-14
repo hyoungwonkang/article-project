@@ -1,12 +1,18 @@
 package com.example.article_project.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +34,13 @@ public class Article {
     private String title;
     private String contents;
     private String writer;
+
+    // 1:N 관계
+    @ElementCollection
+    @CollectionTable(name = "attachment", joinColumns = @JoinColumn(name ="id"))
+    @OrderColumn(name="order_index") // 순서 보장
+    @Builder.Default
+    List<Attachment> files = new ArrayList<>();
 
     @Column(name = "reg_date")
     private LocalDateTime regDate;

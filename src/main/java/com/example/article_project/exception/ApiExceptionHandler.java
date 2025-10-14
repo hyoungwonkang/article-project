@@ -34,11 +34,13 @@ public class ApiExceptionHandler {
         return ResponseEntity.ok().body(response);
     }
     
-    // exceprtion handler method
+    // exception handler method
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleException(HttpServletRequest req, MethodArgumentNotValidException ex) {
         
-        log.info("uri: {}, method: {}", req.getRequestURI(), req.getMethod());
+        log.info("uri: {}", req.getRequestURI());
+        log.info("method: {}", req.getMethod());
+        log.info("error: {}", ex.getMessage());
 
         StringBuilder builder = new StringBuilder();
 
