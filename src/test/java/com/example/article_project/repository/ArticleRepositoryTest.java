@@ -165,6 +165,29 @@ public class ArticleRepositoryTest {
     }
 
     @Test
+    @Rollback(false)
+    void findArticleWithFirstCategory() {
+        //given
+        List<String> categories = new ArrayList<>();
+        categories.add("파일");
+        categories.add("테스트");
+        categories.add("카테고리");
+
+        Article article = Article.builder()
+            .title("카테고리 테스트")
+            .contents("카테고리 테스트 내용")
+            .writer("카테고리 테스트 작성자")
+            .categories(categories)
+            .build();
+
+        //when
+        articleRepository.save(article);
+
+        //then
+        assertThat(article.getId()).isNotNull();
+    }
+
+    @Test
     void testFindArticleById() {
         //given
         Long articleId = 4L;
@@ -209,5 +232,20 @@ public class ArticleRepositoryTest {
         //then
         assertThat(article.getId()).isNotNull();
         assertThat(article.getFiles()).hasSize(1);
+    }
+
+    
+    @Test
+    void testFindArticleWithFirstCategory() {
+        //given
+        Long articleId = 2L;
+
+        //when
+        Article article = articleRepository.findArticleWithFirstCategory(articleId);
+        log.info("categories: {}", article.getCategories());
+
+        //then
+        assertThat(article.getId()).isNotNull();
+        assertThat(article.getCategories()).hasSize(1);
     }
 }

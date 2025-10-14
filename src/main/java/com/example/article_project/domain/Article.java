@@ -42,6 +42,14 @@ public class Article {
     @Builder.Default
     List<Attachment> files = new ArrayList<>();
 
+    // 2. 카테고리 - 단순 문자열 컬렉션  
+    @ElementCollection
+    @CollectionTable(name = "article_categories", joinColumns = @JoinColumn(name = "article_id"))
+    @OrderColumn(name="order_index") // 순서 보장
+    // @Column(name = "category")
+    @Builder.Default
+    List<String> categories = new ArrayList<>();
+
     @Column(name = "reg_date")
     private LocalDateTime regDate;
 
