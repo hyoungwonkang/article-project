@@ -198,17 +198,16 @@ public class ArticleRepositoryTest {
         assertThat(fileCount).isEqualTo(3);
     }
 
-    // SpringDataJPA가 아닌 하이버네이트 기준
-    // @Test
-    // void testFindArticleWithFirstFile() {
-    //     //given
-    //     Long articleId = 4L;
+    @Test
+    void testFindArticleWithFirstFile() {
+        //given
+        Long articleId = 1L;
 
-    //     //when
-    //     Article article = articleRepository.findArticleWithFirstFile(articleId);
+        //when
+        Article article = articleRepository.findArticleWithFirstFile(articleId);
 
-    //     //then
-    //     assertThat(article.getId()).isNotNull();
-    //     assertThat(article.getFiles()).hasSize(1);
-    // }
+        //then
+        assertThat(article.getId()).isNotNull();
+        assertThat(article.getFiles()).hasSize(1);
+    }
 }
