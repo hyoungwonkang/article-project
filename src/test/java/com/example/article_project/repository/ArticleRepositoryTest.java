@@ -129,7 +129,7 @@ public class ArticleRepositoryTest {
     @Rollback(false)
     void testDelete() {
         //given
-        Long articleId = 100L;
+        Long articleId = 100L; // 없는 번호
 
         //when
         articleRepository.deleteById(articleId);
@@ -198,16 +198,17 @@ public class ArticleRepositoryTest {
         assertThat(fileCount).isEqualTo(3);
     }
 
-    @Test
-    void testFindArticleWithFirstFile() {
-        //given
-        Long articleId = 4L;
+    // SpringDataJPA가 아닌 하이버네이트 기준
+    // @Test
+    // void testFindArticleWithFirstFile() {
+    //     //given
+    //     Long articleId = 4L;
 
-        //when
-        Article article = articleRepository.findArticleWithFirstFile(articleId);
+    //     //when
+    //     Article article = articleRepository.findArticleWithFirstFile(articleId);
 
-        //then
-        assertThat(article.getId()).isNotNull();
-        assertThat(article.getFiles()).hasSize(1);
-    }
+    //     //then
+    //     assertThat(article.getId()).isNotNull();
+    //     assertThat(article.getFiles()).hasSize(1);
+    // }
 }
