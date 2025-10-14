@@ -3,6 +3,7 @@ package com.example.article_project.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,14 +34,14 @@ public class ArticleRepositoryTest {
         List<Article> articles = new ArrayList<>();
         for (int i = 1; i <= 100; i++) {
             Article article = Article.builder()
-                    .title("제목 " + i)
-                    .contents("내용 " + i)
-                    .writer("작성자 " + i)
-                    // .regDate(LocalDateTime.now())
+                    .title("title"+i)
+                    .contents("contents"+i)
+                    .writer("writer"+i)
+                    .regDate(LocalDateTime.now())
                     .build();
                 articles.add(article);
         }
-        
+
         //when
         articleRepository.saveAll(articles);
 

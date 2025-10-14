@@ -9,16 +9,15 @@ import com.example.article_project.domain.Article;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    
-    @Query("SELECT a FROM Article a WHERE a.id = :articleId")
+    @Query("select a from Article a where a.id = :articleId")
     Article findArticleById(@Param("articleId") Long id);
 
-    @Query("SELECT SIZE(a.files) FROM Article a WHERE a.id = :articleId")
+    @Query("select size(a.files) from Article a where a.id = :articleId")
     int getFileCount(@Param("articleId") Long id);
 
     @Query("select a from Article a join fetch a.files f where a.id = :articleId and index(f) = 0")
     Article findArticleWithFirstFile(@Param("articleId") Long id);
     
-    @Query("select a from Article a join fetch a.categories f where a.id = :articleId and index(f) = 0")
+    @Query("select a from Article a join fetch a.categories c where a.id = :articleId and index(c) = 0")
     Article findArticleWithFirstCategory(@Param("articleId") Long id);
 }
