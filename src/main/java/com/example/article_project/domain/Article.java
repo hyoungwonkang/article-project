@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.BatchSize;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -40,8 +42,10 @@ public class Article {
     @CollectionTable(name = "attachment", joinColumns = @JoinColumn(name ="id"))
     @OrderColumn(name="order_index") // 순서 보장
     @Builder.Default
+    @BatchSize(size = 5) // 50 ~ 100
     List<Attachment> files = new ArrayList<>();
 
+    // 개인 연습
     // 2. 카테고리 - 단순 문자열 컬렉션  
     @ElementCollection
     @CollectionTable(name = "article_categories", joinColumns = @JoinColumn(name = "article_id"))

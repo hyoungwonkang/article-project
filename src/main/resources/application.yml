@@ -22,6 +22,7 @@ spring:
     properties:
       hibernate:       
         format_sql: true
+      hibernate.default_batch_fetch_size: 50  # BatchSize 기본값 설정. JPA에서 지연 로딩(Lazy Loading) 최적화를 위해 사용한다.
 
 
 # Logging

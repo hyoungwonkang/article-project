@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,15 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.article_project.dto.ArticleDto;
+import com.example.article_project.dto.PageRequestDto;
+import com.example.article_project.dto.PageResponseDto;
 import com.example.article_project.service.ArticleService;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping(value = "/api/v1")
 @RequiredArgsConstructor
 public class ArticleController {
     private final ArticleService articleService;
+
+    // 페이징 조회
+    @GetMapping("/articles")
+    public ResponseEntity<PageResponseDto<ArticleDto>> paging(PageRequestDto pageRequestDto) {
+        PageResponseDto<ArticleDto> pageResponseDto = articleService.paging(pageRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(pageResponseDto);
+    }
 
     // 게시글 등록
     @PostMapping("/articles")

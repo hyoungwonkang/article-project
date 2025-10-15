@@ -8,7 +8,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
+import com.example.article_project.domain.Article;
 import com.example.article_project.dto.ArticleDto;
+import com.example.article_project.dto.PageRequestDto;
+import com.example.article_project.dto.PageResponseDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,4 +76,27 @@ public class ArticleServiceImplTest {
         assertThat(found.getWriter()).isEqualTo("writer 수정1");
 
     }
+
+    // 페이징 처리
+    @Test
+    void testPaging() {
+        //given
+        PageRequestDto pageRequestDto = PageRequestDto.builder()
+                                            .page(2)
+                                            .size(10)
+                                            .build();
+
+        //when
+        PageResponseDto<ArticleDto> page = articleService.paging(pageRequestDto);
+
+        log.info("page: {}, size: {}", page.getPageRequestDto().getPage(), page.getPageRequestDto().getSize());
+        log.info("page.totalcount: {}", page.getTotalCount());
+
+        page.getDtoList().forEach(article -> log.info("article: {}", article.toString())); // 오름차순으로 나옴. 확인 필요.
+        
+        //then
+        assertThat(page.getDtoList()).hasSize(10);
+        assertThat(page.getTotalCount()).isEqualTo(125);
+    }
+
 }
