@@ -147,10 +147,10 @@ public class ArticleRepositoryTest {
     void testSaveArticleAndFile() {
         //given
         List<Attachment> files = new ArrayList<>();
-        files.add(new Attachment("a.txt", "/upload", 100L));
-        files.add(new Attachment("b.txt", "/upload", 200L));
-        files.add(new Attachment("c.txt", "/upload", 300L));
-        
+        files.add(Attachment.builder().fileName("a.txt").filePath("/upload").fileSize(100L).build());
+        files.add(Attachment.builder().fileName("b.txt").filePath("/upload").fileSize(200L).build());
+        files.add(Attachment.builder().fileName("c.txt").filePath("/upload").fileSize(300L).build());
+
         Article article = Article.builder()
             .title("파일 테스트")
             .contents("파일 테스트 내용")
