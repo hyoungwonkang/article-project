@@ -18,8 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
 import com.example.article_project.domain.Article;
-import com.example.article_project.domain.ArticleSearchCondition;
 import com.example.article_project.domain.Attachment;
+import com.example.article_project.dto.ArticleSearchCondition;
 
 import lombok.extern.slf4j.Slf4j;
 

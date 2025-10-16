@@ -8,8 +8,8 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.example.article_project.domain.Article;
-import com.example.article_project.domain.ArticleSearchCondition;
 import com.example.article_project.domain.QArticle;
+import com.example.article_project.dto.ArticleSearchCondition;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
