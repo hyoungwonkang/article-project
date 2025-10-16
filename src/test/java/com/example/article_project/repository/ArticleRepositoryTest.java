@@ -12,9 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
 import com.example.article_project.domain.Article;
+import com.example.article_project.domain.ArticleSearchCondition;
 import com.example.article_project.domain.Attachment;
 
 import lombok.extern.slf4j.Slf4j;
@@ -254,5 +258,20 @@ public class ArticleRepositoryTest {
         //then
         assertThat(article.getId()).isNotNull();
         assertThat(article.getCategories()).hasSize(1);
+    }
+
+    @Test
+    void testSearch() {
+        //given
+        ArticleSearchCondition condition = new ArticleSearchCondition();
+        condition.setWriter("writer"); // writer 이름이 writer
+
+        Pageable pageable = PageRequest.of(0,10);
+        
+        //when
+        Page<Article> page = articleRepository.search(condition, pageable);
+
+        //then
+        log.info("게시글 수: {}", page.getTotalElements());
     }
 }
