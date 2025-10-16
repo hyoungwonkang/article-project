@@ -32,6 +32,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         Page<Article> page = articleRepository.findAll(pageable); // PagingAndSortingRepository의 Page<T> findAll(Pageable pageable) 메서드 사용
 
+        // list -> stream().map() -> entity -> dto -> list
         List<ArticleDto> posts = page.getContent().stream().map(this::entityToDto).collect(Collectors.toList());
 
         int totalCount = (int)page.getTotalElements(); // 전체 게시글 수

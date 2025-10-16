@@ -3,6 +3,7 @@ package com.example.article_project.domain;
 import org.hibernate.annotations.Columns;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -34,28 +35,35 @@ import lombok.NoArgsConstructor;
 
 // }
 
-@Entity
+// value object
+// @Entity
+@Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Attachment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="file_id")
-    private Long id; 
 
-    @Columns(columns = {
-        @Column(name = "file_name"),
-        @Column(name = "file_path"),
-        @Column(name = "file_size")
-    })
     private String fileName;
     private String filePath;
     private Long fileSize;
+    // 바꾸기 연습
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @Column(name="file_id")
+    // private Long id; 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_id")
-    private Article article;
+    // @Columns(columns = {
+    //     @Column(name = "file_name"),
+    //     @Column(name = "file_path"),
+    //     @Column(name = "file_size")
+    // })
+    // private String fileName;
+    // private String filePath;
+    // private Long fileSize;
+
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "article_id")
+    // private Article article;
 
 }
