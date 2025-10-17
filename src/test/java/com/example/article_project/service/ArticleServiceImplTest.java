@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import com.example.article_project.dto.ArticleDto;
+import com.example.article_project.dto.ArticleSearchCondition;
 import com.example.article_project.dto.PageRequestDto;
 import com.example.article_project.dto.PageResponseDto;
 
@@ -21,6 +22,24 @@ public class ArticleServiceImplTest {
 
     @Autowired
     private ArticleService articleService;
+
+    @Test
+    void testSearch() {
+        //given
+        ArticleSearchCondition condition = new ArticleSearchCondition();
+        condition.setWriter("writer");
+
+        PageRequestDto pageRequestDto = PageRequestDto.builder()
+                                            .page(1)
+                                            .size(10)
+                                            .build();
+
+        //when
+        PageResponseDto<ArticleDto> page = articleService.search(condition, pageRequestDto);
+
+        //then
+        log.info("size: {}", page.getDtoList().size());
+    }
 
     @Test
     void testRegisterArticle() {

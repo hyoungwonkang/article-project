@@ -34,7 +34,7 @@ public class CustomArticleRepositoryImpl implements CustomArticleRepository {
     @Override
     public Page<Article> search(ArticleSearchCondition condition, Pageable pageable) {
         // 검색을 하지 않는 경우
-        if (condition.getTitle() == "" && condition.getContents() == "" && condition.getWriter() == "") {
+        if (condition.getTitle() == null && condition.getContents() == null && condition.getWriter() == null) {
             List<Article> articles = jpaQueryFactory
                 .selectFrom(qArticle)
                 .orderBy(qArticle.id.desc())
@@ -51,12 +51,13 @@ public class CustomArticleRepositoryImpl implements CustomArticleRepository {
 
         } else {
             // 페이지 번호와 검색 조건에 해당하는 게시글 목록 조회
+            // where()에 여러 조건 나열 - QueryDSL이 자동으로 null 처리
             List<Article> articles = jpaQueryFactory
                 .selectFrom(qArticle)
                 .where(
-                    writerLike(condition.getWriter())   // 조건이 null이 아니면 where 쿼리에 포함
-                    .and(titleLike(condition.getTitle()))
-                    .and(contentsLike(condition.getContents()))
+                    writerLike(condition.getWriter()),
+                    titleLike(condition.getTitle()),
+                    contentsLike(condition.getContents())
                 )
                 .orderBy(qArticle.id.desc())
                 .offset(pageable.getPageNumber() * pageable.getPageSize())
@@ -68,9 +69,9 @@ public class CustomArticleRepositoryImpl implements CustomArticleRepository {
                 .select(qArticle.count())
                 .from(qArticle)
                 .where(
-                    writerLike(condition.getWriter())   // 조건이 null이 아니면 where 쿼리에 포함
-                    .and(titleLike(condition.getTitle()))
-                    .and(contentsLike(condition.getContents()))
+                    writerLike(condition.getWriter()),
+                    titleLike(condition.getTitle()),
+                    contentsLike(condition.getContents())
                 )
                 .fetchOne();
 

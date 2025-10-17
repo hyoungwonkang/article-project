@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.article_project.domain.Article;
 import com.example.article_project.dto.ArticleDto;
+import com.example.article_project.dto.ArticleSearchCondition;
 import com.example.article_project.dto.PageRequestDto;
 import com.example.article_project.dto.PageResponseDto;
 import com.example.article_project.repository.ArticleRepository;
@@ -23,6 +24,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
+
+    @Override
+    public PageResponseDto<ArticleDto> search(ArticleSearchCondition condition, PageRequestDto pageRequestDto) {
+        Pageable pageable = PageRequest.of(pageRequestDto.getPage() -1,
+                                           pageRequestDto.getSize(),
+                                           Sort.by("id").descending());
+                                           
+        
+        Page<Article> page = articleRepository.search(condition, pageable);
+
+        List<ArticleDto> articles = page.getContent().stream().map(this::entityToDto).collect(Collectors.toList());
+
+        int totalCount = (int)page.getTotalElements();
+
+        return PageResponseDto.<ArticleDto>builder()
+            .dtoList(articles)
+            .pageRequestDto(pageRequestDto)
+            .totalCount(totalCount)
+            .build();
+    }
 
     @Override
     public PageResponseDto<ArticleDto> paging(PageRequestDto pageRequestDto) {

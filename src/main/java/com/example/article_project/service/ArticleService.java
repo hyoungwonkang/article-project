@@ -2,11 +2,14 @@ package com.example.article_project.service;
 
 import com.example.article_project.domain.Article;
 import com.example.article_project.dto.ArticleDto;
+import com.example.article_project.dto.ArticleSearchCondition;
 import com.example.article_project.dto.PageRequestDto;
 import com.example.article_project.dto.PageResponseDto;
 
 public interface ArticleService {
-    
+    // 검색
+    PageResponseDto<ArticleDto> search(ArticleSearchCondition condition, PageRequestDto pageRequestDto);
+
     // 페이징
     PageResponseDto<ArticleDto> paging(PageRequestDto pageRequestDto);
 
