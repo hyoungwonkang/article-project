@@ -1,6 +1,5 @@
 package com.example.article_project.domain;
 
-import org.hibernate.annotations.Columns;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -21,49 +20,34 @@ import lombok.NoArgsConstructor;
 // import lombok.Data;
 // import lombok.NoArgsConstructor;
 
-// // value object
+@Entity
 // @Embeddable
-// @Data
-// @NoArgsConstructor
-// @AllArgsConstructor
-// public class Attachment {
-    
-//     private String fileName;
-//     private String filePath;
-//     private Long fileSize;
-
-
-// }
-
-// value object
-// @Entity
-@Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Attachment {
 
-    private String fileName;
-    private String filePath;
-    private Long fileSize;
-    // 바꾸기 연습
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @Column(name="file_id")
-    // private Long id; 
-
-    // @Columns(columns = {
-    //     @Column(name = "file_name"),
-    //     @Column(name = "file_path"),
-    //     @Column(name = "file_size")
-    // })
     // private String fileName;
     // private String filePath;
     // private Long fileSize;
+    // 바꾸기 연습
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="file_id")
+    private Long id; 
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "article_id")
-    // private Article article;
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "file_path")
+    private String filePath;
+
+    @Column(name = "file_size")
+    private Long fileSize;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "article_id")
+    private Article article;
 
 }

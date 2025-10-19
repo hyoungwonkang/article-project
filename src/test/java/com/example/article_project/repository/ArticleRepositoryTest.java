@@ -23,6 +23,7 @@ import com.example.article_project.dto.ArticleSearchCondition;
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -71,7 +72,7 @@ public class ArticleRepositoryTest {
     @Test
     void testFindById() {
         //given
-        Long articleId = 200L;
+        Long articleId = 138L;
 
         //when
         Optional<Article> found = articleRepository.findById(articleId);
@@ -134,7 +135,7 @@ public class ArticleRepositoryTest {
     @Rollback(false)
     void testDelete() {
         //given
-        Long articleId = 100L; // 없는 번호
+        Long articleId = 1L; // 없는 번호
 
         //when
         articleRepository.deleteById(articleId);
@@ -151,21 +152,22 @@ public class ArticleRepositoryTest {
     void testSaveArticleAndFile() {
         //given
         List<Attachment> files = new ArrayList<>();
-        files.add(new Attachment("a.txt", "/upload", 100L));
-        files.add(new Attachment("b.txt", "/upload", 200L));
-        files.add(new Attachment("c.txt", "/upload", 300L));
-
-        // // 바꾸기 연습
-        // files.add(Attachment.builder().fileName("a.txt").filePath("/upload").fileSize(100L).build());
-        // files.add(Attachment.builder().fileName("b.txt").filePath("/upload").fileSize(200L).build());
-        // files.add(Attachment.builder().fileName("c.txt").filePath("/upload").fileSize(300L).build());
+        // files.add(new Attachment("a.txt", "/upload", 100L));
+        // files.add(new Attachment("b.txt", "/upload", 200L));
+        // files.add(new Attachment("c.txt", "/upload", 300L));
 
         Article article = Article.builder()
             .title("파일 테스트")
             .contents("파일 테스트 내용")
             .writer("파일 테스트 작성자")
+            .regDate(LocalDateTime.now())
             .files(files)
             .build();
+
+        // // 바꾸기 연습
+        files.add(Attachment.builder().fileName("a.txt").filePath("upload").fileSize(100L).article(article).build());
+        files.add(Attachment.builder().fileName("b.txt").filePath("upload").fileSize(200L).article(article).build());
+        files.add(Attachment.builder().fileName("c.txt").filePath("upload").fileSize(300L).article(article).build());
 
         //when
         articleRepository.save(article);

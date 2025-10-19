@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.hibernate.annotations.BatchSize;
 
+import com.example.article_project.dto.ArticleFileDto;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -40,17 +43,17 @@ public class Article {
     private String writer;
 
     // 바꾸기 연습
-    // @Builder.Default
-    // @OneToMany(fetch = FetchType.LAZY)
-    // List<Attachment> files = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    List<Attachment> files = new ArrayList<>();
 
     // 1:N 관계
-    @ElementCollection
-    @CollectionTable(name = "attachment", joinColumns = @JoinColumn(name ="id"))
-    @OrderColumn(name="order_index") // 순서 보장
-    @Builder.Default
-    @BatchSize(size = 5) // 50 ~ 100
-    List<Attachment> files = new ArrayList<>();
+    // @ElementCollection
+    // @CollectionTable(name = "attachment", joinColumns = @JoinColumn(name ="id"))
+    // @OrderColumn(name="order_index") // 순서 보장
+    // @Builder.Default
+    // @BatchSize(size = 5) // 50 ~ 100
+    // List<Attachment> files = new ArrayList<>();
 
     // 개인 연습
     // 2. 카테고리 - 단순 문자열 컬렉션  

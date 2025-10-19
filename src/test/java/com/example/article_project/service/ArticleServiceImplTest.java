@@ -2,6 +2,10 @@ package com.example.article_project.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -9,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import com.example.article_project.dto.ArticleDto;
+import com.example.article_project.dto.ArticleFileDto;
 import com.example.article_project.dto.ArticleSearchCondition;
 import com.example.article_project.dto.PageRequestDto;
 import com.example.article_project.dto.PageResponseDto;
@@ -42,16 +47,27 @@ public class ArticleServiceImplTest {
     }
 
     @Test
+    @Rollback(false)
     void testRegisterArticle() {
         //given
+        List<ArticleFileDto> files = new ArrayList<>();
+
         ArticleDto articleDto = ArticleDto.builder()
                 .title("테스트")
                 .contents("테스트 내용")
                 .writer("테스터")
+                .regDate(LocalDateTime.now())
+                .files(files)
                 .build();
 
+        files.add(ArticleFileDto.builder().fileName("a.txt").filePath("/upload").fileSize(100L).build());
+        files.add(ArticleFileDto.builder().fileName("b.txt").filePath("/upload").fileSize(200L).build());
+        files.add(ArticleFileDto.builder().fileName("c.txt").filePath("/upload").fileSize(300L).build());
+
+        log.info("files: {}", files.toString());
+        log.info("articleDto: {}", articleDto.toString());
         //when
-        Long id = articleService.registerArticle(articleDto);
+        Long id = articleService.registerArticle(articleDto, null); // files 파라미터는 null
         log.info("id: {}", id);
 
         //then

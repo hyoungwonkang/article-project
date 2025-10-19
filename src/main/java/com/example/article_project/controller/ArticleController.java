@@ -1,5 +1,6 @@
 package com.example.article_project.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.article_project.dto.ArticleDto;
 import com.example.article_project.dto.ArticleSearchCondition;
@@ -21,6 +24,7 @@ import com.example.article_project.dto.PageRequestDto;
 import com.example.article_project.dto.PageResponseDto;
 import com.example.article_project.service.ArticleService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -71,11 +75,12 @@ public class ArticleController {
 
     // 게시글 등록
     @PostMapping("/articles")
-    public ResponseEntity<Map<String, Long>> postArticle(@RequestBody ArticleDto articleDto) {
+    public ResponseEntity<Map<String, Long>> postArticle(
+        @RequestPart(value = "article") @Valid ArticleDto article,
+        @RequestPart(value = "files", required = false) List<MultipartFile> files) {
 
-        Long id = articleService.registerArticle(articleDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("id", id));
-
+        Long id = articleService.registerArticle(article, files);
+        return ResponseEntity.ok().body(Map.of("id", id));
     }
 
     // 게시글 상세조회: getArticle

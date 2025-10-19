@@ -9,13 +9,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.article_project.domain.Article;
 import com.example.article_project.dto.ArticleDto;
+import com.example.article_project.dto.ArticleFileDto;
 import com.example.article_project.dto.ArticleSearchCondition;
 import com.example.article_project.dto.PageRequestDto;
 import com.example.article_project.dto.PageResponseDto;
 import com.example.article_project.repository.ArticleRepository;
+import com.example.article_project.util.FileUploadUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
+    private final FileUploadUtils fileUploadUtils;
 
     @Override
     public PageResponseDto<ArticleDto> search(ArticleSearchCondition condition, PageRequestDto pageRequestDto) {
@@ -67,7 +71,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Transactional(readOnly = false)
     @Override
-    public Long registerArticle(ArticleDto articleDto) {
+    public Long registerArticle(ArticleDto articleDto, List<MultipartFile> files) {
+        if (files != null && !files.isEmpty()) {
+            List<ArticleFileDto> articleFileDtos = fileUploadUtils.uploadFiles(files);
+            if (articleFileDtos != null) {
+                articleDto.setFiles(articleFileDtos);
+            }
+        }
+        
         return articleRepository.save(dtoToEntity(articleDto)).getId();
     }
 
@@ -95,6 +106,12 @@ public class ArticleServiceImpl implements ArticleService {
             .orElseThrow(() ->{
                 return new IllegalArgumentException(id + "에 해당하는 게시글 정보가 없습니다.");
             });
+
+        // return articleRepository.findArticleById(id)
+        //     .map(article -> entityToDto(article)) // 람다
+        //     .orElseThrow(() ->{
+        //         return new IllegalArgumentException(id + "에 해당하는 게시글 정보가 없습니다.");
+        //     });
     }
 
     @Transactional(readOnly = false)
