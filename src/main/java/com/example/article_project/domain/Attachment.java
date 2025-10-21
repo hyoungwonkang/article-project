@@ -34,7 +34,6 @@ public class Attachment {
     // 바꾸기 연습
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="file_id")
     private Long id; 
 
     @Column(name = "file_name")

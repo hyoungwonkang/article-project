@@ -101,17 +101,21 @@ public class ArticleServiceImpl implements ArticleService {
         //     });
 
         
-        return articleRepository.findById(id)
-            .map(article -> entityToDto(article)) // 람다
-            .orElseThrow(() ->{
-                return new IllegalArgumentException(id + "에 해당하는 게시글 정보가 없습니다.");
-            });
+        // return articleRepository.findById(id)
+        //     .map(article -> entityToDto(article)) // 람다
+        //     .orElseThrow(() ->{
+        //         return new IllegalArgumentException(id + "에 해당하는 게시글 정보가 없습니다.");
+        //     });
 
         // return articleRepository.findArticleById(id)
         //     .map(article -> entityToDto(article)) // 람다
         //     .orElseThrow(() ->{
         //         return new IllegalArgumentException(id + "에 해당하는 게시글 정보가 없습니다.");
         //     });
+
+        Article article = articleRepository.findArticleById(id);
+        return entityToDto(article);
+
     }
 
     @Transactional(readOnly = false)
