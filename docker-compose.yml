@@ -1,0 +1,44 @@
+services:
+  board-project:
+    image: hwplus/board-project:latest
+    ports:
+      - "80:80"
+    networks:
+      - web
+    depends_on:
+      - article-project
+
+  article-project:
+    image: hwplus/article-project:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - web
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.4.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=db_board
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    networks:
+      - web
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+      
+volumes:
+  mysql-volume:
+
+networks:
+  web:
+    driver: bridge

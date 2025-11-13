@@ -26,7 +26,7 @@ import com.example.article_project.service.ArticleService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/v1")
 @RequiredArgsConstructor

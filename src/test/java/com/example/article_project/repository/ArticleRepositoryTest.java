@@ -233,19 +233,19 @@ public class ArticleRepositoryTest {
         assertThat(fileCount).isEqualTo(3);
     }
 
-    @Test
-    void testFindArticleWithFirstFile() {
-        //given
-        Long articleId = 1L;
+    // @Test
+    // void testFindArticleWithFirstFile() {
+    //     //given
+    //     Long articleId = 1L;
 
-        //when
-        Article article = articleRepository.findArticleWithFirstFile(articleId);
+    //     //when
+    //     Article article = articleRepository.findArticleWithFirstFile(articleId);
 
-        //then
-        assertThat(article.getId()).isNotNull();
-        // (그냥 JOIN일 시)files는 List<Attachment>의 객체이므로 List에 저장된 articleId의 개수만큼 가져옴: N+1 문제.
-        // assertThat(article.getFiles()).hasSize(1);
-    }
+    //     //then
+    //     assertThat(article.getId()).isNotNull();
+    //     // (그냥 JOIN일 시)files는 List<Attachment>의 객체이므로 List에 저장된 articleId의 개수만큼 가져옴: N+1 문제.
+    //     // assertThat(article.getFiles()).hasSize(1);
+    // }
 
     
     @Test

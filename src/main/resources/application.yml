@@ -1,6 +1,6 @@
 
 server:
-  port: 9000
+  port: 8080
 
 spring:
   application:
@@ -9,9 +9,9 @@ spring:
   # DB 연결 정보
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db_board?serverTimezone=Asia/Seoul&characterEncoding=utf-8
-    username: react
-    password: Mysql1234!!
+    url: jdbc:mysql://db:3306/db_board?serverTimezone=Asia/Seoul&characterEncoding=utf-8
+    username: root
+    password: 1234
 
   # 파일 업로드 설정
   servlet:
